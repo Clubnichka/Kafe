@@ -1,0 +1,45 @@
+package com.example.test3;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class MainActivity extends AppCompatActivity {
+    private EditText responseEditText;
+    private ApiService apiService;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        responseEditText = findViewById(R.id.responseEditText);
+        Button getDataButton = findViewById(R.id.getDataButton);
+        apiService = new ApiService();
+        getDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchData();
+            }
+        });
+    }
+
+    private void fetchData() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            try {
+                ResponseData data = apiService.getData();
+                runOnUiThread(() -> responseEditText.setText(data.getMessage()));
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                Log.e("Response", e.getMessage());
+            }
+        });
+    }
+}

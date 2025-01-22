@@ -1,0 +1,24 @@
+package com.example.test3;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import com.google.gson.Gson;
+import com.example.test3.UnsafeOkHttpClient;
+import java.io.IOException;
+
+public class ApiService {
+    private final OkHttpClient client = new UnsafeOkHttpClient().getUnsafeOkHttpClient();
+    private final Gson gson = new Gson();
+
+    public ResponseData getData() throws Exception {
+        Request request = new Request.Builder()
+                .url("https://192.168.1.145:5005/api/home/")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            return gson.fromJson(response.body().string(), ResponseData.class);
+        }
+    }
+}

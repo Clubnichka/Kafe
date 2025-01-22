@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:background="@drawable/border">
+
+    <TextView
+        android:id="@+id/orderid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Product" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contentList"
+        android:layout_width="415dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Повторить заказ"/>
+
+
+</LinearLayout>
