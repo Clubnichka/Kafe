@@ -27,6 +27,7 @@ import com.example.test3.Services.CheckerService;
 import com.example.test3.Services.DataBaseServices.DBHelper;
 import com.example.test3.Services.ModelServices.OrderService;
 import com.example.test3.Services.ModelServices.SpecialOfferService;
+import com.example.test3.Services.TotalCounter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class OrderActivity extends AppCompatActivity {
     ConstraintLayout disclaimer1Layout;
     ConstraintLayout disclaimer2Layout;
     LinearLayout disclaimer;
+    TextView total;
     int userid;
 
     @Override
@@ -72,8 +74,10 @@ public class OrderActivity extends AppCompatActivity {
         contentView2 = (RecyclerView) findViewById(R.id.contentList2);
         contentView2.setLayoutManager(new LinearLayoutManager((this)));
         empty=(TextView)findViewById(R.id.Empty);
+        total=(TextView)findViewById(R.id.total);
         mDbHelper = new DBHelper(this);
         doOrder=(Button)findViewById(R.id.doOrder);
+        TotalCounter totalCounter=new TotalCounter();
         Context context=this;
         CheckerService checker=new CheckerService();
         CustomAdapter2 adapter2=new CustomAdapter2(this);
@@ -107,8 +111,10 @@ public class OrderActivity extends AppCompatActivity {
                 orderService =new OrderService(idList1, new OrderService.ProductsCallback() {
                     @Override
                     public void onProductsLoaded(List<Product> products) {
+                        totalCounter.sumProducts(products);
                         adapter2.setContentValues(products);
                         contentView.setAdapter( adapter2);
+                        total.setText("Итого к оплате - "+totalCounter.getTotal()+" руб.");
                     }
                 });
             }
@@ -122,10 +128,13 @@ public class OrderActivity extends AppCompatActivity {
                 offerService=new SpecialOfferService(idList2, new SpecialOfferService.OffersCallback() {
                     @Override
                     public void onOffersLoaded(SpecialOffer[] offers) {
+                        totalCounter.sumOffers(offers);
                         for (SpecialOffer so:offers){
+
                             Log.w("Offers", so.getName());
                         }
                         contentView2.setAdapter(new CustomAdapter5(offers));
+                        total.setText("Итого к оплате - "+totalCounter.getTotal()+" руб.");
                     }
                 });
             }

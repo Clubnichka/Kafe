@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.example.test3.Models.Order;
 import com.example.test3.Models.Product;
 import com.example.test3.Models.SpecialOffer;
 import com.example.test3.R;
+import com.example.test3.Services.CheckerService;
 import com.example.test3.Services.ModelServices.OrderService;
 import com.example.test3.Services.ModelServices.ProductService;
 import com.example.test3.Services.ModelServices.SpecialOfferService;
@@ -30,6 +32,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
 
     private Order[] contentValues;
     private int userid;
+    private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView orderid;
@@ -56,7 +59,8 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
         public Button getRepeat(){return repeat;}
     }
 
-    public CustomAdapter3(Order[] orders, int userid) {
+    public CustomAdapter3(Order[] orders, int userid, Context context) {
+        this.context=context;
         this.contentValues=orders;
         this.userid=userid;
     }
@@ -89,6 +93,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
                 }
 
                 SpecialOfferService offerService=new SpecialOfferService(contentValues[position].getId(), true, new SpecialOfferService.OffersCallback() {
+                    CheckerService checker =new CheckerService();
                     @Override
                     public void onOffersLoaded(SpecialOffer[] offers) {
                         List<Integer> ids2=new ArrayList<Integer>();
@@ -102,10 +107,14 @@ public class CustomAdapter3 extends RecyclerView.Adapter<CustomAdapter3.ViewHold
                         viewHolder.getRepeat().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if(checker.check(userid)){
+                                    OrderService orderService=new OrderService();
+                                    orderService.addOrder(ids,ids2,userid);
+                                }
+                                else{
+                                    Toast.makeText(context,"Нельзя делать два заказа за раз",Toast.LENGTH_SHORT).show();
+                                }
 
-
-                                OrderService orderService=new OrderService();
-                                orderService.addOrder(ids,ids2,userid);
                             }
                         });
                     }

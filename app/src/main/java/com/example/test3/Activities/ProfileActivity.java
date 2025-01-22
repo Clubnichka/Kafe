@@ -1,5 +1,6 @@
 package com.example.test3.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         Status=(TextView)findViewById(R.id.Status);
         dbHelper=new DBHelper(this);
         exit=(Button)findViewById(R.id.exit);
+        Context context=this;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = db.query("User", null, null, null, null, null, null);
         if (c.moveToFirst()){
@@ -69,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
         orderService=new OrderService(userid, new OrderService.OrdersCallback() {
             @Override
             public void onOrdersLoaded(Order[] orders) {
-                contentView.setAdapter(new CustomAdapter3(orders,userid));
+                contentView.setAdapter(new CustomAdapter3(orders,userid, context));
                 orderService.getCurrentOrder(userid, new OrderService.OrderCallback() {
                     @Override
                     public void onOrderLoaded(Order order) {
@@ -93,7 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                         if (show){
                             Order[] orders= {order};
-                            currentOrder.setAdapter(new CustomAdapter3(orders,userid));
+                            currentOrder.setAdapter(new CustomAdapter3(orders,userid, context));
                         }
                     }
                 });

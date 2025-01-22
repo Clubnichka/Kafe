@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/menu"
             android:text="Меню"
-            app:layout_constraintTop_toBottomOf="@+id/toProfile"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,37 +93,35 @@
         android:layout_height="50dp"
         android:background="@drawable/silverware"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/toOrder"
+        app:layout_constraintEnd_toStartOf="@+id/toPromos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_percent="0.2"
         app:layout_constraintWidth_percent="0.25"/>
     <Button
-        android:id="@+id/toOrder"
+        android:id="@+id/toPromos"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/cart"
+        android:background="@drawable/sale"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/toOffers"
         app:layout_constraintStart_toEndOf="@+id/toMenu"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintWidth_percent="0.25"/>
-
+        app:layout_constraintWidth_percent="0.33"/>
     <Button
         android:id="@+id/toOffers"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/offer"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/toPromos"
-        app:layout_constraintStart_toEndOf="@+id/toOrder"
+        app:layout_constraintEnd_toStartOf="@+id/toOrder"
+        app:layout_constraintStart_toEndOf="@+id/toPromos"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintWidth_percent="0.25" />
-
+        app:layout_constraintWidth_percent="0.33" />
     <Button
-        android:id="@+id/toPromos"
+        android:id="@+id/toOrder"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/sale"
+        android:background="@drawable/cart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toOffers"
